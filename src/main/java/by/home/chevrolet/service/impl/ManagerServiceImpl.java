@@ -30,7 +30,7 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public Manager editCar(Manager manager) {
+    public Manager editManager(Manager manager) {
         return null;
     }
 

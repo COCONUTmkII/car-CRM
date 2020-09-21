@@ -32,7 +32,7 @@ public class CarController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/car")
+    @GetMapping("/car{model}")
     public ResponseEntity<Car> getByModel(@PathVariable String model) {
         return new ResponseEntity<>(carService.getByModel(model), HttpStatus.OK);
     }

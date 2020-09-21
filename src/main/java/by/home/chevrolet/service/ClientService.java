@@ -8,6 +8,6 @@ public interface ClientService {
     Client addClient(Client client);
     void delete(Long id);
     Client getByFullName(FullName name);
-    Client editCar(Client client);
+    Client editClient(Client client);
     List<Client> getAll();
 }

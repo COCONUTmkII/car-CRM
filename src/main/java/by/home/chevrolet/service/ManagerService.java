@@ -8,6 +8,6 @@ public interface ManagerService {
     Manager addManager(Manager manager);
     void delete(Long id);
     Manager getByName(FullName name);
-    Manager editCar(Manager manager);
+    Manager editManager(Manager manager);
     List<Manager> getAll();
 }

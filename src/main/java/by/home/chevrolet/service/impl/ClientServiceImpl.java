@@ -30,7 +30,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client editCar(Client client) {
+    public Client editClient(Client client) {
         return clientRepository.saveAndFlush(client);
     }
 
