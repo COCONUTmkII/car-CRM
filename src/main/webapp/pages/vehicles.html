@@ -1,0 +1,335 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: COCONUTmkII
+  Date: 20.07.2019
+  Time: 12:31
+  To change this template use File | Settings | File Templates.
+--%>
+<%@taglib prefix="lg" uri="/WEB-INF/custom.tld" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title><lg:locale text="vehicle"/></title>
+    <meta charset = "UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/navigation_page_style.css">
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e64872dd6e.js"></script>
+</head>
+<body>
+<div class ="navigation_logo_Main">
+    <a href="../controller?command=main" class = "main_page_link">
+        <img src="../images/chevrolet_logo.png" alt = "Chevrolet" title = "Chevrolet">
+    </a>
+    <div class = "navigation_list_container">
+        <button class="Vehicles" type="button" onclick="location.href='<%= request.getContextPath()%>../controller?command=vehicle'"
+                title="Vehicles">
+            <lg:locale text="vehicle"/>
+        </button>
+        <button class = "Owners" onclick= "location.href='<%= request.getContextPath()%>../controller?command=owner'"
+                title = "Owners">
+            <lg:locale text="owner"/>
+        </button>
+        <button class = "Sales" onclick= "location.href='<%= request.getContextPath()%>../controller?command=sale'"
+                title = "Sales">
+            <lg:locale text="sale"/>
+        </button>
+        <button class = "Colleagues"
+                onclick= "location.href='<%= request.getContextPath()%>../controller?command=colleague&locale=en_US'"
+                title = "Colleagues">
+            <lg:locale text="colleague"/>
+        </button>
+    </div>
+    <div class="languages">
+        <form action="../controller?command=language" method="post">
+            <button class = "Russian_lang" name="locale" value="ru_RU"
+                    title = "Russian">
+                <lg:locale text="rus"/>
+            </button>
+        </form>
+        <form action="../controller?command=language" method="post">
+            <button class="English_lang" name="locale" value="en_US" title="English">
+                <lg:locale text="eng"/>
+            </button>
+        </form>
+        <form action="/controller?command=logout" method="post">
+            <button  onclick="noBack()" class = "logout" title = "Logout">
+                <lg:locale text="logout"/>
+            </button>
+        </form>
+    </div>
+</div>
+<img src="../images/vehicles.webp" class="img-thumbnail embed-responsive">
+<br/>
+<jsp:useBean id="test" class="by.home.chevrolet.dao.DAOCar"/>
+<c:set var="colNumber" value="0"/>
+<c:set var="myTest" value="${test.showAllInformation()}"/>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+     <div class="navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reserveModal" data-whatever="@mdo"><lg:locale text="reserve"/></button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addModal" data-whatever="@mdo"><lg:locale text="add"/></button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#updateModal" data-whatever="@mdo"><lg:locale text="update"/></button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-whatever="@mdo"><lg:locale text="delete"/></button>
+            </li>
+        </ul>
+    </div>
+</nav>
+<table class="table table-bordered table-responsive-lg text-center" style="overflow: auto">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col"></th>
+        <th scope="col"><lg:locale text="vin"/></th>
+        <th scope="col"><lg:locale text="model"/></th>
+        <th scope="col"><lg:locale text="colour"/></th>
+        <th scope="col"><lg:locale text="price"/></th>
+        <th scope="col"><lg:locale text="car.arrived"/></th>
+        <th scope="col"><lg:locale text="data"/></th>
+        <th scope="col"><lg:locale text="car.status"/></th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="row" items="${myTest}">
+        <tr>
+            <th scope="row">${colNumber = colNumber + 1}</th>
+            <td id="VIN-Number"><c:out value="${row.VIN}"/></td>
+            <td><c:out value="${row.carModel}"/></td>
+            <td><c:out value="${row.colour}"/></td>
+            <td><c:out value="${row.carPrice}"/></td>
+            <c:choose>
+                <c:when test="${row.availability.equals(true)}">
+                  <td><i class="fas fa-check" alter=""></i></td>
+                </c:when>
+                <c:otherwise>
+                    <td><i class="fas fa-times"></i></td>
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
+                <c:when test="${row.recyclingCollection.equals(true)}">
+                    <td><i class="fas fa-clipboard-check"></i></td>
+                </c:when>
+                <c:otherwise>
+                    <td><i class="far fa-clipboard"></i></td>
+                </c:otherwise>
+            </c:choose>
+            <c:choose>
+                <c:when test="${row.status.equals(false)}">
+                    <td><i title="free" class="fas fa-car"></i></td>
+                </c:when>
+                <c:otherwise>
+                    <td><i title="reserved" class="far fa-id-card"></i></td>
+                </c:otherwise>
+            </c:choose>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+<div class="modal fade" id="reserveModal" tabindex="-1" role="dialog" aria-labelledby="reserveModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reserveModalLabel"><lg:locale text="reserve.car"/></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/controller" method="post">
+            <div class="modal-body">
+                    <input type="hidden" name="command" value="reserve">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="vin"/></label>
+                        <input name = "VIN" type="text" class="form-control" id="recipient-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label"><lg:locale text="client.telephone"/></label>
+                        <input name="clientPhone" type="text" class="form-control" id="message-text" required>
+                    </div>
+                    <div>
+                        <label for="message-text" class="col-form-label"><lg:locale text="reserv.date"/></label>
+                        <input name="contractDate" type="date" class="form-control" id="reserve-date" required>
+                    </div>
+                    <div>
+                        <label for="message-text" class="col-form-label"><lg:locale text="payment.date"/></label>
+                        <input name="paymentDate" type="date" class="form-control" id="payment-date" required>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><lg:locale text="cancel"/></button>
+                <button type="submit" class="btn btn-primary"><lg:locale text="reserve"/></button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel"><lg:locale text="add.new.car"/></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/controller" method="post">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="add_car">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="vin"/></label>
+                        <input name="VIN-add" type="text" class="form-control" id="VIN-add" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="model"/></label>
+                        <input name="model-add" type="text" class="form-control" id="Model-add" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="colour"/></label>
+                        <input name="colour-add" type="text" class="form-control" id="Colour-add" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="price"/></label>
+                        <input name="price-add" type="text" class="form-control" id="Price-add" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="availability"/></label>
+                        <input name="availability-add" type="checkbox" class="form-control" id="Availability-add" />
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="data"/></label>
+                        <input name="data-sheet-add" type="checkbox" class="form-control" id="recycle-add" />
+                    </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><lg:locale text="cancel"/></button>
+                <button type="submit" class="btn btn-primary"><lg:locale text="add"/></button>
+            </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel"><lg:locale text="car.del.message"/></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/controller" method="post">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="del_car">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="vin"/></label>
+                        <input name="VIN-del" type="text" class="form-control" id="VIN-del" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label"><lg:locale text="del.car"/></label>
+                        <input name="" type="checkbox" class="form-control" id="accept-del" required>
+                    </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><lg:locale text="cancel"/></button>
+                <button type="submit" class="btn btn-primary"><lg:locale text="delete"/></button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel"><lg:locale text="change.car"/></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/controller" method="post">
+                    <div class="form-group">
+                        <input type="hidden" name="command" value="update_car">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="vin"/></label>
+                        <input name="VIN-upd" type="text" class="form-control" id="VIN-upd" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label"><lg:locale text="price"/></label>
+                        <input name="price-upd" type="text" class="form-control" id="price-upd" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label"><lg:locale text="car.in.werehouse"/></label>
+                        <input name="availability-upd" type="checkbox" class="form-control" id="werehouse-upd">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label"><lg:locale text="data.available"/></label>
+                        <input name="data-sheet-upd" type="checkbox" class="form-control" id="recycle-upd">
+                    </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><lg:locale text="cancel"/></button>
+                <button type="submit" class="btn btn-primary"><lg:locale text="update"/></button>
+            </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class = "footer">
+    <div class="copyright">
+        <p>
+            <lg:locale text="foot"/>
+        </p>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script>
+    $('#reserveModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var modal = $(this)
+        modal.find('.modal-title').text();
+    })
+</script>
+<script>
+    $('#addModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var modal = $(this)
+        modal.find('.modal-title').text();
+    })
+</script>
+<script>
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var modal = $(this)
+        modal.find('.modal-title').text();
+    })
+</script>
+<script>
+    $('#updateModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var modal = $(this)
+        modal.find('.modal-title').text();
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="lg" uri="/WEB-INF/custom.tld" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: COCONUTmkII
+  Date: 20.07.2019
+  Time: 12:31
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title><lg:locale text="colleague"/></title>
+    <meta charset = "UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/navigation_page_style.css">
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class ="navigation_logo_Main">
+    <a href="../controller?command=main" class = "main_page_link">
+        <img src="../images/chevrolet_logo.png" alt = "Chevrolet" title = "Chevrolet">
+    </a>
+    <div class = "navigation_list_container">
+        <button class="Vehicles" type="button" onclick="location.href='<%= request.getContextPath()%>../controller?command=vehicle'"
+                title="Vehicles">
+            <lg:locale text="vehicle"/>
+        </button>
+        <button class = "Owners" onclick= "location.href='<%= request.getContextPath()%>../controller?command=owner'"
+                title = "Owners">
+            <lg:locale text="owner"/>
+        </button>
+        <button class = "Sales" onclick= "location.href='<%= request.getContextPath()%>../controller?command=sale'"
+                title = "Sales">
+            <lg:locale text="sale"/>
+        </button>
+        <button class = "Colleagues"
+                onclick= "location.href='<%= request.getContextPath()%>../controller?command=colleague&locale=en_US'"
+                title = "Colleagues">
+            <lg:locale text="colleague"/>
+        </button>
+    </div>
+    <div class="languages">
+        <form action="../controller?command=language" method="post">
+            <button class = "Russian_lang" name="locale" value="ru_RU"
+                    title = "Russian">
+                <lg:locale text="rus"/>
+            </button>
+        </form>
+        <form action="../controller?command=language" method="post">
+            <button class="English_lang" name="locale" value="en_US" title="English">
+                <lg:locale text="eng"/>
+            </button>
+        </form>
+        <form action="/controller?command=logout" method="post">
+            <button  onclick="noBack()" class = "logout" title = "Logout">
+                <lg:locale text="logout"/>
+            </button>
+        </form>
+    </div>
+</div>
+<img src="../images/staff.jpg" class="img-thumbnail embed-responsive">
+<br/>
+
+<br/>
+<table class="table table-sm">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col"></th>
+        <th scope="col"><lg:locale text="col.surname"/></th>
+        <th scope="col"><lg:locale text="col.patronymic"/></th>
+        <th scope="col"><lg:locale text="col.name"/></th>
+        <th scope="col"><lg:locale text="mail"/></th>
+        <th scope="col"><lg:locale text="telephone"/></th>
+        <th scope="col"><lg:locale text="colleague.contact"/></th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="row" items="${listColleagues}">
+        <tr>
+            <td></td>
+            <td><c:out value="${row.managerName}"/></td>
+            <td><c:out value="${row.managerPatronymic}"/></td>
+            <td><c:out value="${row.managerSurname}"/></td>
+            <td id="ppc"><c:out value="${row.mail}"/></td>
+            <td><c:out value="${row.telephone}"/></td>
+            <td><a href="mailto:${row.mail}" class="btn btn-primary offset-4"><lg:locale text="contact"/></a></td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+<div class = "footer">
+    <div class="copyright">
+        <p>
+          <lg:locale text="foot"/>
+        </p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+</body>
+</html>

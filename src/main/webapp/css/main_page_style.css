@@ -1,0 +1,236 @@
+body{
+	overflow: hidden;
+	overflow-y: scroll;
+	background: #E8E8E8;
+}
+.navigation_logo_Main{
+	font-family: 'Slabo 27px', serif;
+	height: 5vw;
+	align-items: center;
+	display: inline-flex;
+	background: #f2f2f2;
+	border-bottom: .0625rem solid #b3b3b3;
+	padding: 0;
+	width: 100vw;
+	margin: -10px;
+}
+button{
+	margin-top: 1.5%;
+	width: 6.5vw;
+	cursor: pointer;
+	font-size: 1.2vw;
+	border: none;
+	background: #f2f2f2;
+	border-radius: 10%;
+	transition: 0.6s;
+
+}
+button:hover{
+	background: black;
+	color: white;
+}
+.languages{
+	margin-left: 20vw;
+	width: 28vw;
+	position: relative;
+	float: left;
+    margin-top: 0.3vw;
+}
+.languages form{
+	width: 6.5vw;
+	float: left;
+	margin-left: 2vw;
+}
+.navigation_list_container{
+	width: 47vw;
+	margin-left: 1vw;
+	float: left;
+}
+.navigation_logo_Main img{
+	width: 4vw;
+	height: 3vw;
+	margin-left: 3vw;
+}
+.footer{
+	width: 100vw;
+	height: 5vw;
+	background: #f2f2f2;
+	margin: -10px;
+}
+.copyright p{
+	font-size: 1vw;
+	text-align: center;
+	position: relative;
+
+}
+.copyright{
+	top: 1vw;
+	position: relative;
+}
+.main_content{
+  width: 98%;
+  height: 95%;
+  background: #E8E8E8;
+  font-size: 16px;
+  margin: 0 auto;
+}
+.carousel {
+  transform: translateZ(0);
+}
+
+.carousel input {
+  position: absolute;
+  left: -1000px;
+}
+
+.carousel__stage {
+  overflow: hidden;
+  font-size: 0;
+  white-space: nowrap;
+  width: 100%;
+  height: 100%;
+  transition: text-indent 600ms;
+  position: relative;
+}
+
+.carousel__item {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-indent: 0;
+  opacity: 0.6;
+  text-align: center;
+}
+
+.carousel__image {
+
+  height: 40vw;
+  width: auto;
+  display: inline-block;
+}
+
+.carousel__next,
+.carousel__prev {
+
+  display: none;
+  position: absolute;
+  top: 50%;
+  color: black;
+  background: #E8E8E8;
+  z-index: 1;
+  font-size: 2.5vw;
+  padding: 2.5vw;
+  cursor: pointer;
+}
+
+.carousel__prev {
+
+  left: 0;
+}
+
+.carousel__prev:after {
+  content: ' << ';
+  display: inline-block;
+}
+
+.carousel__next {
+  right: 0;
+}
+
+.carousel__next:after {
+  content: ' >> ';
+  display: inline-block;
+}
+
+#carousel1:checked ~ .carousel__stage .carousel__item:nth-child(1),
+#carousel2:checked ~ .carousel__stage .carousel__item:nth-child(2), 
+#carousel3:checked ~ .carousel__stage .carousel__item:nth-child(3), 
+#carousel4:checked ~ .carousel__stage .carousel__item:nth-child(4) {
+  opacity: 1;
+}
+
+#carousel1:checked ~ .carousel__stage {
+  text-indent: 0;
+}
+
+#carousel2:checked ~ .carousel__stage {
+  text-indent: -100%;
+}
+
+#carousel3:checked ~ .carousel__stage {
+  text-indent: -200%;
+}
+
+#carousel4:checked ~ .carousel__stage {
+  text-indent: -300%;
+}
+
+#carousel1:checked ~ .carousel__stage .carousel__item:nth-child(1) .carousel__prev,
+#carousel1:checked ~ .carousel__stage .carousel__item:nth-child(1) .carousel__next,
+#carousel2:checked ~ .carousel__stage .carousel__item:nth-child(2) .carousel__prev,
+#carousel2:checked ~ .carousel__stage .carousel__item:nth-child(2) .carousel__next,
+#carousel3:checked ~ .carousel__stage .carousel__item:nth-child(3) .carousel__prev,
+#carousel3:checked ~ .carousel__stage .carousel__item:nth-child(3) .carousel__next,
+#carousel4:checked ~ .carousel__stage .carousel__item:nth-child(4) .carousel__prev,
+#carousel4:checked ~ .carousel__stage .carousel__item:nth-child(4) .carousel__next {
+  display: block;
+}
+
+.item_head{
+	font-size: 1.7vw;
+	font-weight: bold;
+	text-align: center;
+	transition: 0.7s;
+}
+.item_head:hover{
+	background: black;
+	color: white;
+}
+.ps{
+	text-align: center;
+	font-size: 1.1vw;
+	border-top: 2px solid grey;
+	font-family: sans-serif;
+	color: grey;
+	transition: 0.7s;
+}
+.ps:hover{
+	border-bottom: 2px solid gold;
+}
+.products{
+	position:relative;
+	width: 100%;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	margin-top: 3.5vw;
+	grid-gap: 0.5vw;
+}
+.products_inner{
+	width: 33vw;
+	height: auto;
+}
+.products_inner img{
+	position: relative;
+	width: 100%;
+}
+@media only screen and (max-width: 800px) {
+ .products{
+	position:relative;
+	width: 100%;
+	display: grid;
+	grid-template-columns: auto;
+	margin-top: 3.5vw;
+	grid-gap: 0.5vw;
+	}
+.products_inner{
+	width: 100vw;
+	height: auto;
+	}
+.products_inner img{
+	position: relative;
+	left: 14vw; 
+	width: 70vw;
+	height: 30vw;
+	}
+}

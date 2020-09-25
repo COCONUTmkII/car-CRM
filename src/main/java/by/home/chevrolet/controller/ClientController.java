@@ -25,10 +25,10 @@ public class ClientController {
         return new ResponseEntity<>(clientService.addClient(client), HttpStatus.OK);
     }
 
-    @GetMapping("/client")
+/*    @GetMapping("/client")
     public ResponseEntity<Client> getClientByFullName(@RequestBody FullName fullName) {
         return new ResponseEntity<>(clientService.getByFullName(fullName), HttpStatus.OK);
-    }
+    }*/
 
     @PutMapping("/client")
     public ResponseEntity<Client> editClient(@RequestBody Client client) {

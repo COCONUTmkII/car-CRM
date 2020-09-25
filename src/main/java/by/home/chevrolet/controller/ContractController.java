@@ -35,10 +35,10 @@ public class ContractController {
         return new ResponseEntity<>(contractService.editContract(contract), HttpStatus.OK);
     }
 
-    @GetMapping("/contract")
+/*    @GetMapping("/contract")
     public ResponseEntity<Contract> getContractByDate(@RequestBody LocalDate date) {
         return new ResponseEntity<>(contractService.getByContractDate(date), HttpStatus.OK);
-    }
+    }*/
 
 
 }

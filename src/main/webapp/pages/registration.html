@@ -1,0 +1,51 @@
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="../css/reg.css">
+    <link rel="icon" href="../images/chevrolet_logo.png">
+</head>
+<body>
+<form class="box" action="/controller" method="post"  onsubmit = "public_static_void_main()" name = "vform">
+    <h1>
+        <img src="../images/chevrolet_logo.png">
+    </h1>
+    <input type="hidden" name="command" value="register_manager">
+    <div id = "login_div">
+        <input type="text" class ="TextInput" name="login" placeholder="Username" required oninvalid="emptyLogin() && allIsOk()">
+        <div id = "login_error" class = "ValError"></div>
+    </div>
+    <div id = "password_div">
+        <input type="password" class ="TextInput" name="password" placeholder="Password" required oninvalid="emptyPassword()  && allIsOk()">
+    </div>
+    <div id = "repeat_password_div">
+        <input type ="password" class ="TextInput" name ="repeat_password" placeholder="Repeat Password" required oninvalid="emptyRepeatPassword()  && allIsOk()">
+        <div id = "password_error" class = "ValError"></div>
+    </div>
+    <div id = "email_div">
+        <input  type ="text" class ="TextInput" id = "mailID" name = "mail" placeholder ="E-mail" required oninvalid="emptyEmail()  && allIsOk()">
+        <div id = "email_error" class = "ValError"></div>
+    </div>
+    <div id ="telephone_div">
+        <input type ="text" class ="TextInput" name = "Telephone" placeholder = "Tel" required oninvalid="emptyPhone()  && allIsOk()">
+        <div id = "tel_error" class = "ValError"></div>
+    </div>
+    <div id="name">
+        <input type="text" class="TextInput" name="Name" placeholder="Name" required oninvalid="emptyManagerName()  && allIsOk()">
+        <div id = "name_error" class="ValError"></div>
+    </div>
+    <div id="surname">
+        <input type="text" class="TextInput" name="Surname" placeholder="Surname" required oninvalid="emptySurname() && allIsOk()">
+        <div id = "surname_error" class="ValError"></div>
+    </div>
+    <div id="patronymic">
+        <input type="text" class="TextInput" name="Patronymic" placeholder="Patronymic" required oninvalid="emptyPatronymic() && allIsOk()">
+        <div id = "patronymic_error" class="ValError"></div>
+    </div>
+    <div>
+        <input type="submit" name="Register" id="registration" class = "Reg" value="Registration" required>
+    </div>
+</form>
+</body>
+<script type="text/javascript" src = "../js/registration.script.js"></script>
+</html>
