@@ -14,9 +14,9 @@ public class ManagerController {
     @Autowired
     ManagerServiceImpl managerService;
 
-    @RequestMapping("/managerr")
-    public String toManagerPage() {
-        return "test";
+    @GetMapping("/login")
+    public String goToMainPage() {
+        return "login";
     }
 
 
