@@ -14,14 +14,9 @@ public class ManagerController {
     @Autowired
     ManagerServiceImpl managerService;
 
-    @GetMapping("/login")
-    public String goToMainPage() {
-        return "login";
-    }
-
-
     @GetMapping("/manager")
     public ResponseEntity<List<Manager>> getAllManager() {
+        System.out.println("HELLOOOOO");
         return new ResponseEntity<>(managerService.getAll(), HttpStatus.OK);
     }
 
