@@ -3,10 +3,17 @@ spring:
     database: POSTGRESQL
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/chevrolet
     username: postgres
-    password: uiisisdu9
+    password: lel
     driverClassName: org.postgresql.Driver
+  mail:
+    host: smtp.mailtrap.io
+    port: 25
+    username: 292687563dfb8
+    password: 51d0a9cb50e31
+    protocol: smtp
+    test-connection: true

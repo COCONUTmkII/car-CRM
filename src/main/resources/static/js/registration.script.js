@@ -4,7 +4,7 @@ var password_regex = /(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]{6,}/;
 var email_regex = /^.+@.+\..+$/;
 var phone_regex = /^\+375 \((17|29|33|44)\) [0-9]{3}-[0-9]{2}-[0-9]{2}/;
 // SELECTING ALL TEXT ELEMENTS
-var username = document.forms['vform']['login'];
+var username = document.forms['vform']['username'];
 var email = document.getElementById("mailID");
 var password = document.forms['vform']['password'];
 var repeat_password = document.forms['vform']['repeat_password'];

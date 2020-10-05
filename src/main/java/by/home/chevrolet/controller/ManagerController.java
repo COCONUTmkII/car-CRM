@@ -1,6 +1,8 @@
 package by.home.chevrolet.controller;
 
+import by.home.chevrolet.entity.FullName;
 import by.home.chevrolet.entity.Manager;
+import by.home.chevrolet.service.impl.AuthServiceImpl;
 import by.home.chevrolet.service.impl.ManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,14 +18,14 @@ public class ManagerController {
 
     @GetMapping("/manager")
     public ResponseEntity<List<Manager>> getAllManager() {
-        System.out.println("HELLOOOOO");
         return new ResponseEntity<>(managerService.getAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/manager")
-    public ResponseEntity<Manager> addManager(@RequestBody Manager manager) {
-        return new ResponseEntity<>(managerService.addManager(manager), HttpStatus.OK);
-    }
+/*    @PostMapping("/manager")
+     public ResponseEntity<Manager> addManager(Manager manager, FullName fullName) throws RuntimeException{
+        authService.signUp(manager, fullName);
+        return new ResponseEntity<>(managerService.addManager(manager), HttpStatus.CREATED);
+    }*/
 
     @PutMapping("/manager")
     public ResponseEntity<Manager> editManager(@RequestBody Manager manager) {
@@ -39,6 +41,4 @@ public class ManagerController {
     public void delete(@PathVariable Long id) {
         managerService.delete(id);
     }
-
-
 }

@@ -13,8 +13,11 @@ public class Manager {
     private String telephone;
     private FullName fullName;
     private String password;
+    private boolean isEnabled;
     @OneToMany
     private List<Contract> contractList;
+    @OneToOne
+    private VerificationToken verificationToken;
 
     public Long getId() {
         return id;
@@ -70,5 +73,21 @@ public class Manager {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public VerificationToken getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(VerificationToken verificationToken) {
+        this.verificationToken = verificationToken;
     }
 }

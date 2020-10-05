@@ -3,16 +3,16 @@
     <meta charset="utf-8">
     <title>Registration</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/reg.css}">
-    <link rel="icon" href="../static/images/chevrolet_logo.png">
+    <link rel="icon" th:href="@{/img/chevrolet_logo.png}">
 </head>
 <body>
-<form class="box" action="/manager" method="post"  onsubmit = "public_static_void_main()" name = "vform">
+<form class="box" th:action="@{/manager}" method="post" name="vform"  onsubmit ="public_static_void_main()">
     <h1>
         <img th:src="@{/img/chevrolet_logo.png}">
     </h1>
     <input type="hidden" name="command" value="register_manager">
     <div id = "login_div">
-        <input type="text" class ="TextInput" name="login" placeholder="Username" required oninvalid="emptyLogin() && allIsOk()">
+        <input type="text" class ="TextInput" name="nickname" placeholder="Username" required oninvalid="emptyLogin() && allIsOk()">
         <div id = "login_error" class = "ValError"></div>
     </div>
     <div id = "password_div">
@@ -23,11 +23,11 @@
         <div id = "password_error" class = "ValError"></div>
     </div>
     <div id = "email_div">
-        <input  type ="text" class ="TextInput" id = "mailID" name = "mail" placeholder ="E-mail" required oninvalid="emptyEmail()  && allIsOk()">
+        <input  type ="text" class ="TextInput" id = "mailID" name = "email" placeholder ="E-mail" required oninvalid="emptyEmail()  && allIsOk()">
         <div id = "email_error" class = "ValError"></div>
     </div>
     <div id ="telephone_div">
-        <input type ="text" class ="TextInput" name = "Telephone" placeholder = "Tel" required oninvalid="emptyPhone()  && allIsOk()">
+        <input type ="text" class ="TextInput" name = "telephone" placeholder = "Tel" required oninvalid="emptyPhone()  && allIsOk()">
         <div id = "tel_error" class = "ValError"></div>
     </div>
     <div id="name">
@@ -43,7 +43,7 @@
         <div id = "patronymic_error" class="ValError"></div>
     </div>
     <div>
-        <input type="submit" name="Register" id="registration" class = "Reg" value="Registration" required>
+        <input type="submit" required>
     </div>
 </form>
 </body>
