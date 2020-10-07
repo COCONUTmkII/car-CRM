@@ -3,6 +3,8 @@ package by.home.chevrolet.service.impl;
 import by.home.chevrolet.entity.FullName;
 import by.home.chevrolet.entity.Manager;
 import by.home.chevrolet.entity.VerificationToken;
+import by.home.chevrolet.exception.InvalidVerificationToken;
+import by.home.chevrolet.exception.ManagerNotFoundException;
 import by.home.chevrolet.model.NotificationEmail;
 import by.home.chevrolet.repository.ManagerRepository;
 import by.home.chevrolet.repository.VerificationTokenRepository;
@@ -11,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,9 +40,25 @@ public class AuthServiceImpl implements AuthService {
                 manager.getEmail(),
                 """
                        Thank you for signing up! Please click to the link below to activate your account
-                       http://localhost:8080/api/auth/accountVerification
-                       """ + token
+                       http://localhost:8080/auth/accountVerification/""" + token
                 ));
+    }
+
+    @Override
+    public void verifyAccount(String token) {
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+        verificationToken.orElseThrow(() -> new InvalidVerificationToken("Verification token is invalid"));
+        fetchUserAndEnable(verificationToken.get());
+    }
+
+    @Transactional
+    @Override
+    public void fetchUserAndEnable(VerificationToken verificationToken) {
+        String managerNickname = verificationToken.getManager().getNickname();
+        Manager manager = managerRepository.findByNickname(managerNickname)
+                .orElseThrow(() -> new ManagerNotFoundException("Manager is not found with name" + managerNickname));
+        manager.setEnabled(true);
+        managerRepository.saveAndFlush(manager);
     }
 
     public String generateVerificationToken(Manager manager) {

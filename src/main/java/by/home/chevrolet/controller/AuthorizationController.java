@@ -35,4 +35,11 @@ public class AuthorizationController {
         authService.signUp(manager, fullName);
         return new ResponseEntity<>("Manager Registration Successful", HttpStatus.OK);
     }
+
+    @GetMapping("/accountVerification/{token}")
+    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
+        System.out.println("Hello?");
+        authService.verifyAccount(token);
+        return new ResponseEntity<>("Account activated successfully", HttpStatus.OK);
+    }
 }
