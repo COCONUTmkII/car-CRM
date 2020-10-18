@@ -104,12 +104,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
-        refreshTokenService.validateRefreshToken(refreshTokenRequest.refreshToken());
-        String token = jwtProvider.generateTokenByNickname(refreshTokenRequest.nickname());
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        String token = jwtProvider.generateTokenByNickname(refreshTokenRequest.getNickname());
         return new AuthenticationResponse(
                 token,
-                refreshTokenRequest.refreshToken(),
-                refreshTokenRequest.nickname(),
+                refreshTokenRequest.getRefreshToken(),
+                refreshTokenRequest.getNickname(),
                 Instant.now().plusMillis(jwtProvider.getJwtExpirationTimeInMillis())
         );
     }
