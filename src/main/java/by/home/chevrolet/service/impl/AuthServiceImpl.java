@@ -5,11 +5,17 @@ import by.home.chevrolet.entity.Manager;
 import by.home.chevrolet.entity.VerificationToken;
 import by.home.chevrolet.exception.InvalidVerificationToken;
 import by.home.chevrolet.exception.ManagerNotFoundException;
+import by.home.chevrolet.model.AuthenticationResponse;
+import by.home.chevrolet.model.LoginRequest;
 import by.home.chevrolet.model.NotificationEmail;
 import by.home.chevrolet.repository.ManagerRepository;
 import by.home.chevrolet.repository.VerificationTokenRepository;
 import by.home.chevrolet.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +33,10 @@ public class AuthServiceImpl implements AuthService {
     VerificationTokenRepository verificationTokenRepository;
     @Autowired
     EmailServiceImpl emailService;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    JwtProviderImpl jwtProvider;
 
     @Transactional
     @Override
@@ -58,7 +68,17 @@ public class AuthServiceImpl implements AuthService {
         Manager manager = managerRepository.findByNickname(managerNickname)
                 .orElseThrow(() -> new ManagerNotFoundException("Manager is not found with name" + managerNickname));
         manager.setEnabled(true);
+        manager.setVerificationToken(verificationToken);
         managerRepository.saveAndFlush(manager);
+    }
+
+    @Override
+    public AuthenticationResponse login(LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getNickname(),
+                loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtProvider.generateToken(authentication);
+        return new AuthenticationResponse(token, loginRequest.getNickname());
     }
 
     public String generateVerificationToken(Manager manager) {

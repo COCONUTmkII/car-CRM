@@ -16,7 +16,7 @@ public class CarController {
     @Autowired
     CarServiceImpl carService;
 
-    @GetMapping("/car")
+    @GetMapping("/all")
     public ResponseEntity<List<Car>> getCars() {
         return new ResponseEntity<>(carService.getAll(), HttpStatus.OK);
     }

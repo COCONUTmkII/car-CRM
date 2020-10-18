@@ -2,6 +2,8 @@ package by.home.chevrolet.controller;
 
 import by.home.chevrolet.entity.FullName;
 import by.home.chevrolet.entity.Manager;
+import by.home.chevrolet.model.AuthenticationResponse;
+import by.home.chevrolet.model.LoginRequest;
 import by.home.chevrolet.service.impl.AuthServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,20 +17,20 @@ public class AuthorizationController {
     @Autowired
     AuthServiceImpl authService;
 
-    @GetMapping("/login")
+/*    @GetMapping("/login")
     public String openIndexPage() {
         return "login";
-    }
+    }*/
 
     @GetMapping("/registration")
     public String openRegistrationPage() {
         return "registration";
     }
 
-    @GetMapping("/")
+/*    @GetMapping("/")
     public String openMainPage() {
         return "main";
-    }
+    }*/
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody Manager manager, FullName fullName) {
@@ -38,8 +40,12 @@ public class AuthorizationController {
 
     @GetMapping("/accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
-        System.out.println("Hello?");
         authService.verifyAccount(token);
         return new ResponseEntity<>("Account activated successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
+        return authService.login(loginRequest);
     }
 }
