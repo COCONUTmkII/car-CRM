@@ -3,12 +3,12 @@
     <meta charset="utf-8">
     <title>Registration</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/reg.css}">
-    <link rel="icon" th:href="@{/img/chevrolet_logo.png}">
+    <link rel="icon" th:href="@{/src/app/img/chevrolet_logo.png}">
 </head>
 <body>
 <form class="box" th:action="@{/manager}" method="post" name="vform"  onsubmit ="public_static_void_main()">
     <h1>
-        <img th:src="@{/img/chevrolet_logo.png}">
+        <img th:src="@{/src/app/img/chevrolet_logo.png}">
     </h1>
     <input type="hidden" name="command" value="register_manager">
     <div id = "login_div">
@@ -47,5 +47,5 @@
     </div>
 </form>
 </body>
-<script type="text/javascript" th:src = "@{/js/registration.script.js}"></script>
+<script type="text/javascript" th:src = "@{/src/app/js/registration.script.js}"></script>
 </html>
