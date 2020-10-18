@@ -6,6 +6,7 @@ import by.home.chevrolet.model.JwtManager;
 import by.home.chevrolet.service.JwtProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
+import java.time.Instant;
+import java.util.Date;
 
 import static io.jsonwebtoken.Jwts.parser;
 
@@ -21,6 +24,9 @@ import static io.jsonwebtoken.Jwts.parser;
 public class JwtProviderImpl implements JwtProvider {
 
     private KeyStore keyStore;
+    @Value("${jwt.expiration.time}")
+    private Long jwtExpirationTimeInMillis;
+
 
     @Override
     public String generateToken(Authentication authentication) {
@@ -28,6 +34,7 @@ public class JwtProviderImpl implements JwtProvider {
         return Jwts.builder()
                 .setSubject(principal.nickname())
                 .signWith(getPrivateKey())
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationTimeInMillis)))
                 .compact();
     }
 
@@ -35,6 +42,16 @@ public class JwtProviderImpl implements JwtProvider {
     public boolean validateToken(String jwt) {
         parser().setSigningKey(getPublicKey()).parseClaimsJws(jwt);
         return true;
+    }
+
+    @Override
+    public String generateTokenByNickname(String nickname) {
+        return Jwts.builder()
+                .setSubject(nickname)
+                .setIssuedAt(Date.from(Instant.now()))
+                .signWith(getPrivateKey())
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationTimeInMillis)))
+                .compact();
     }
 
     @PostConstruct
@@ -72,5 +89,8 @@ public class JwtProviderImpl implements JwtProvider {
         }
     }
 
+    public Long getJwtExpirationTimeInMillis() {
+        return jwtExpirationTimeInMillis;
+    }
 
 }

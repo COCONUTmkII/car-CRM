@@ -1,11 +1,15 @@
 package by.home.chevrolet.model;
 
-public record AuthenticationResponse(String authenticationToken, String nickname) {
+import java.time.Instant;
+
+public record AuthenticationResponse(String authenticationToken, String nickname,
+                                     String refreshToken, Instant expiresAt) {
     public String getAuthenticationToken() {
         return authenticationToken;
     }
-
     public String getNickname() {
         return nickname;
     }
+    public String getRefreshToken() {return refreshToken;}
+    public Instant getExpiresAt() { return expiresAt;}
 }

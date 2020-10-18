@@ -8,6 +8,7 @@ import by.home.chevrolet.exception.ManagerNotFoundException;
 import by.home.chevrolet.model.AuthenticationResponse;
 import by.home.chevrolet.model.LoginRequest;
 import by.home.chevrolet.model.NotificationEmail;
+import by.home.chevrolet.model.RefreshTokenRequest;
 import by.home.chevrolet.repository.ManagerRepository;
 import by.home.chevrolet.repository.VerificationTokenRepository;
 import by.home.chevrolet.service.AuthService;
@@ -19,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,6 +40,9 @@ public class AuthServiceImpl implements AuthService {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtProviderImpl jwtProvider;
+    @Autowired
+    RefreshTokenServiceImpl refreshTokenService;
+
 
     @Transactional
     @Override
@@ -78,7 +84,34 @@ public class AuthServiceImpl implements AuthService {
                 loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtProvider.generateToken(authentication);
-        return new AuthenticationResponse(token, loginRequest.getNickname());
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse(
+                token,
+                loginRequest.getNickname(),
+                refreshTokenService.generateRefreshToken().getToken(),
+                Instant.now().plusMillis(jwtProvider.getJwtExpirationTimeInMillis()));
+        System.out.println(authenticationResponse.nickname());
+        System.out.println(authenticationResponse.expiresAt());
+        System.out.println(authenticationResponse.authenticationToken());
+        System.out.println(authenticationResponse.refreshToken());
+        return authenticationResponse;
+        /*return new AuthenticationResponse(
+                token,
+                loginRequest.getNickname(),
+                refreshTokenService.generateRefreshToken().getToken(),
+                Instant.now().plusMillis(jwtProvider.getJwtExpirationTimeInMillis())
+        );*/
+    }
+
+    @Override
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.refreshToken());
+        String token = jwtProvider.generateTokenByNickname(refreshTokenRequest.nickname());
+        return new AuthenticationResponse(
+                token,
+                refreshTokenRequest.refreshToken(),
+                refreshTokenRequest.nickname(),
+                Instant.now().plusMillis(jwtProvider.getJwtExpirationTimeInMillis())
+        );
     }
 
     public String generateVerificationToken(Manager manager) {

@@ -24,13 +24,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     ManagerRepository managerRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
         Optional<Manager> managerOptional = managerRepository.findByNickname(nickname);
         Manager manager = managerOptional
                 .orElseThrow(() -> new UsernameNotFoundException("No manager found with this nickname " + nickname));
-        /*return new User(manager.getNickname(), manager.getPassword(),
-                manager.isEnabled(),
-                true, true, true, getAuthorities("Admin"));*/
         return new JwtManager(manager.getId(), manager.getNickname(), manager.getEmail(), manager.getTelephone(),
                 manager.getPassword(), true, getAuthorities("Admin"));
     }
@@ -38,23 +36,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
         return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
-    /*@Autowired
-    ManagerRepository managerRepository;
-
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
-        Optional<Manager> managerOptional = managerRepository.findByNickname(nickname);
-        Manager manager = managerOptional
-                .orElseThrow(() -> new UsernameNotFoundException("No manager found with this nickname " + nickname));
-        return new User(manager.getNickname(), manager.getPassword(),
-                manager.isEnabled(),
-                true, true, true, getAuthorities("Admin"));
-    }
-
-
-    private Collection<? extends GrantedAuthority> getAuthorities(String role) {
-        return Collections.singletonList(new SimpleGrantedAuthority(role));
-    }*/
-
 }
