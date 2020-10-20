@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RegistrationComponent } from './pages/registration/registration.component';
 import {AppRoute} from './app.route';
+import {NgxWebstorageModule} from 'ngx-webstorage';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {AppRoute} from './app.route';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgxWebstorageModule.forRoot()
   ],
   providers: [
   ],
