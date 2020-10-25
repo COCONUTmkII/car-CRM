@@ -7,13 +7,15 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RegistrationComponent } from './pages/registration/registration.component';
 import {AppRoute} from './app.route';
 import {NgxWebstorageModule} from 'ngx-webstorage';
+import { MainComponent } from './pages/main/main.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    MainComponent
   ],
   imports: [
     AppRoute,
