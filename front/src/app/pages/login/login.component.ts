@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginResponsePayload} from './loginResponsePayload';
 import {LoginRequestPayload} from './loginRequestPayload';
 import {AuthService} from '../../service/AuthService';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +11,12 @@ import {AuthService} from '../../service/AuthService';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  isErrorDueLogin = false;
   loginForm: FormGroup;
   loginPayload: LoginRequestPayload;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.loginPayload = {
       nickname: '',
@@ -33,7 +36,12 @@ export class LoginComponent implements OnInit {
     this.loginPayload.password = this.loginForm.get('password').value;
 
     this.authService.login(this.loginPayload).subscribe(data => {
-      console.log('Login successful');
+      if (data) {
+        this.isErrorDueLogin = false;
+        this.router.navigateByUrl('/main');
+      } else {
+        this.isErrorDueLogin = true;
+      }
     });
   }
 
